@@ -14,7 +14,7 @@ export default function Login() {
         <div className='rounded-lg ' style={boxstyle}>
             
         </div>
-        <div className='bg-white' style={{padding: '15%' ,}}>
+        <div className='bg-white' style={{padding: '15%' ,}}> 
             <h3>Login</h3>
             <form>
   <div className="mb-3">
