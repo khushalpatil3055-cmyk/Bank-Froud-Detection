@@ -35,11 +35,13 @@ const FraudChart = () => {
         }
     }
   return (
-   <><div className='d-inline shadow-sm p-4 mt-4'>
+   <>
+   <div style={{backgroundColor:"  white", padding:"5%", paddingRight:"6%", borderRadius:"10px"}}>
+   <div className='d-inline shadow-sm p-4 mt-4'>
         <h5 style={{color:"#0F3D3E"}}>Fraud Transactions This Week</h5>
         <Line data={data} options={options}></Line>
     </div>
-   
+   </div>
    </>
     
   )

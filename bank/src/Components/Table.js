@@ -257,7 +257,7 @@ const transactions = [
 const Table = () => {
    
   return (
-    <div style={{background:"white",padding:"20px",borderRadius:"10px",marginTop:"20px"}}>
+    <div style={{background:"white",padding:"20px",borderRadius:"10px",marginTop:"20px", backgroundColor:" white"}}>
       <h2 >Recent Transactions / Alerts</h2><br /><br />
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "10px" }}>
         <thead>

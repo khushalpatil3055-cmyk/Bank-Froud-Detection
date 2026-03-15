@@ -23,8 +23,8 @@ const Piechart = () => {
         }
     }
   return (
-    <div className=''>
-            <h5 style={{color:"#0F3D3E", textAlign:"center", marginBottom:"50px"}}> Fraud vs Safe Transactions</h5>
+    <div style={{backgroundColor:" white", padding : "5%",paddingTop:"23%" ,paddingBottom : "23%", borderRadius:"10px"}}>
+            <h5 style={{color:"#0F3D3E", textAlign:"center",}}> Fraud vs Safe Transactions</h5>
             <Doughnut data={data} options={options}/>
     </div>
   )

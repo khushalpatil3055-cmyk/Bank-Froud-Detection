@@ -21,6 +21,7 @@ ChartJS.register(ArcElement);
       }
     };
    return (
+    <div >
      <div className='card shadow-sm p-3' style={{width:"260px",backgroundColor:"#0F3D3E"}}>
       <div className='d-flex justify-content-between align-items-center'>
           <div>
@@ -33,6 +34,7 @@ ChartJS.register(ArcElement);
           </div>
 
       </div>
+     </div>
      </div>
    )
  }

@@ -6,7 +6,7 @@ import Piechart from './Components/Piechart';
 import Table from './Components/Table';
 const Dashboard = () => {
   return (
-    <div >
+    <div>
       <>
       <h2 style={{marginLeft:"50px",color:"#0F3D3E",marginTop:"10px"}}>Dashboard</h2><br /><br />
         <Filters/><br /><br />
@@ -64,7 +64,7 @@ const Dashboard = () => {
     </div>
 
     {/* Pie Chart */}
-    <div className="" style={{width:"25%",marginLeft:"140px", marginTop:"110px"}}>
+    <div className="" style={{width:"25%",marginLeft:"140px", marginTop:"50px"}}>
       <Piechart/>
     </div>
 
