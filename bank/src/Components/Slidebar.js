@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Slidebar = ({ open, openset }) => {
+const Slidebar = ({ open, openset }) => { 
+  
   return (
     <div
       style={{
@@ -26,10 +27,10 @@ const Slidebar = ({ open, openset }) => {
       <h4 className="mt-4">Menu</h4>
 
       <ul style={{listStyle:"none", padding:"0"}}>
-        <Link to="/">Dashboard</Link><br />
-        <Link to="/Transaction">Transactions</Link>
-         <li className="mt-3">Fraud Alerts</li>
-        <li className="mt-3">Users</li>
+        <Link to="/" style={{textDecoration:"none", color:"white"}}>Dashboard</Link><br />
+        <Link to="/Transaction" style={{textDecoration:"none", color : " white"}}>Transactions</Link>
+         <li className="mt-3" style={{textDecoration:"none"}}>Fraud Alerts</li>
+        <li className="mt-3" style={{textDecoration:"none"}}>Users</li>
       </ul>
     </div>
   );
