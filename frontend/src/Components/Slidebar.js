@@ -27,10 +27,10 @@ const Slidebar = ({ open, openset }) => {
       <h4 className="mt-4">Menu</h4><br />
 
       <ul style={{listStyle:"none", padding:"0"}}>
-        <Link to="/" style={{textDecoration:"none", color:"white"}}>Dashboard</Link><br /><br />
-        <Link to="/Transaction" style={{textDecoration:"none", color : " white"}}>Transactions</Link><br /><br />
-         <Link to="/Alert" style={{textDecoration:"none", color : " white"}}>Fraud Alert</Link><br /><br />
-        <Link to="/Users" style={{textDecoration:"none", color : " white"}}>Users</Link>
+        <Link to="/"  onClick={() => openset(false)} style={{textDecoration:"none", color:"white"} }>Dashboard</Link><br /><br />
+        <Link to="/Transaction" onClick={() => openset(false)} style={{textDecoration:"none", color : " white"}}>Transactions</Link><br /><br />
+         <Link to="/Alert"  onClick={() => openset(false)} style={{textDecoration:"none", color : " white"}}>Fraud Alert</Link><br /><br />
+        <Link to="/Users"  onClick={() => openset(false)} style={{textDecoration:"none", color : " white"}}>Users</Link>
       </ul>
     </div>
   );
