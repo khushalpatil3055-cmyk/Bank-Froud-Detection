@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongooseURI = "mongodb://localhost:27017/BANK-FROUD-DETECTION"
+const mongooseURI = "mongodb://localhost:27017/froud-detection-system"
 const connecttomongo = async ()=>{
     try {
         await mongoose.connect(mongooseURI);
