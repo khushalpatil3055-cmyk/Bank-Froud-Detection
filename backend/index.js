@@ -1,18 +1,23 @@
-
 const connecttomongo = require('./db');
-const express = require('express')
+const express = require('express');
+
+const app = express();
+const port = 3000;
+
+// ✅ Middleware (VERY IMPORTANT)
+app.use(express.json());
+
+// ✅ Connect DB (ONLY ONCE)
 connecttomongo();
-const app = express()
-const port = 3000
-connecttomongo();
+
+// ✅ Routes
+app.use('/api/auth', require('./routes/authRoutes'));
+
+// ✅ Test Route
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  res.send("API Running");
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
-// Call it before starting the server
-
-
+  console.log(`Server running on port ${port}`);
+});

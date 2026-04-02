@@ -7,9 +7,12 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Transaction from './Transaction';
 import Alert from './Alert';
 import Users from './Users';
+import Login from './Components/Login';
 function App() {
   return (
-    <BrowserRouter>
+    <div>
+
+      <BrowserRouter>
        <div className="App d-flex flex-column min-vh-100" style={{background : " #f4f6f9cf"}}>
      <Nav/>
      <div  className="flex-grow-1">
@@ -24,7 +27,7 @@ function App() {
       <Footer></Footer>
     </div>
     </BrowserRouter>
-   
+   </div>
   );
 }
 
