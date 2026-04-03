@@ -1,20 +1,14 @@
 import React from 'react'
 
 export default function Login() {
-    let boxstyle={
-        padding: '19%' ,
-        
-        
-        backgroundColor:"#e64100",
-         
-    }
+   
   return (
    
-    <div className="d-flex justify-content-center " style={{backgroundColor : "#FF8C00",padding : "50px"  , height: '100vh',    overflow: 'hidden',  margin: 0,}}>
-        <div className='rounded-lg ' style={boxstyle}>
+    <div className="d-flex justify-content-center " >
+        <div className='rounded-lg ' >
             
         </div>
-        <div className='bg-white' style={{padding: '15%' ,}}> 
+        <div className='bg-white'> 
             <h3>Login</h3>
             <form>
   <div className="mb-3">

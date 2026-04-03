@@ -4,10 +4,7 @@ import Footer from './Components/Footer';
 import Nav from './Components/Nav';
 import Dashboard from './Dashboard';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
-import Transaction from './Transaction';
-import Alert from './Alert';
-import Users from './Users';
-import Login from './Components/Login';
+
 function App() {
   return (
     <div>
@@ -17,11 +14,9 @@ function App() {
      <Nav/>
      <div  className="flex-grow-1">
      <Routes>
+         <Route path='/Login' element={<Dashboard/>}></Route>
+         <Route path='/Signup' element={<Dashboard/>}></Route>
          
-         <Route path='/' element={<Dashboard/>}></Route>
-         <Route path='/Transaction' element={<Transaction></Transaction>}></Route>
-         <Route path='/Alert' element={<Alert/>}></Route>
-         <Route path='/Users' element={<Users/>}></Route>
      </Routes>
      </div>
       <Footer></Footer>
