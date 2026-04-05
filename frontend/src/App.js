@@ -1,28 +1,33 @@
 
 import './App.css';
-import Footer from './Components/Footer';
-import Nav from './Components/Nav';
-import Dashboard from './Dashboard';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
 
-function App() {
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import Login from './Login';
+import Signup from './Signup';
+import Dashboard from './Dashboard';
+import Transaction from './Transaction';
+import Alert from './Alert';
+import Users from './Users';
+import Nav from './Components/Nav';
+import Footer from './Components/Footer';
+ function App() {
   return (
-    <div>
+   
 
       <BrowserRouter>
-       <div className="App d-flex flex-column min-vh-100" style={{background : " #f4f6f9cf"}}>
-     <Nav/>
-     <div  className="flex-grow-1">
-     <Routes>
-         <Route path='/Login' element={<Dashboard/>}></Route>
-         <Route path='/Signup' element={<Dashboard/>}></Route>
-         
-     </Routes>
-     </div>
-      <Footer></Footer>
-    </div>
+      <Nav/>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        
+        <Route path="/Signup" element={<Signup />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Transactions" element={<Transaction />} />
+        <Route path="/Alert" element={<Alert/>} />
+        <Route path="/Users" element={<Users />} />
+      </Routes>
+      <Footer/>
     </BrowserRouter>
-   </div>
+  
   );
 }
 

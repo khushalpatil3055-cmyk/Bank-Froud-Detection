@@ -6,8 +6,7 @@ const Users = () => {
   return (
     <div>
       <h2 style={{marginLeft:"50px",color:"#0F3D3E",marginTop:"10px"}}>Users</h2><br /><br />
-      <Ufilter/><br /><br />
-      <Usertable/>
+      
     </div>
   )
 }

@@ -4,10 +4,12 @@ import Filters from './Components/Filters';
 import FraudChart from './Components/FraudChart';
 import Piechart from './Components/Piechart';
 import Table from './Components/Table';
+
 const Dashboard = () => {
   return (
     <div>
       <>
+  
       <h2 style={{marginLeft:"50px",color:"#0F3D3E",marginTop:"10px"}}>Dashboard</h2><br /><br />
         <Filters/><br /><br />
         <div className="d-flex justify-content-evenly">
