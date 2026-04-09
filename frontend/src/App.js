@@ -2,12 +2,12 @@
 import './App.css';
 
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
-import Login from './Login';
-import Signup from './Signup';
-import Dashboard from './Dashboard';
-import Transaction from './Transaction';
-import Alert from './Alert';
-import Users from './Users';
+import Login from './Components/Login';
+import Signup from './Components/Signup';
+import Dashboard from './Admin/Dashboard';
+import Transaction from './Admin/Transaction';
+import Alert from './Admin/Alert';
+import Users from './Admin/Users';
 import Nav from './Components/Nav';
 import Footer from './Components/Footer';
  function App() {
@@ -15,7 +15,7 @@ import Footer from './Components/Footer';
    
 
       <BrowserRouter>
-      <Nav/>
+   
       <Routes>
         <Route path="/" element={<Login />} />
         
@@ -25,7 +25,7 @@ import Footer from './Components/Footer';
         <Route path="/Alert" element={<Alert/>} />
         <Route path="/Users" element={<Users />} />
       </Routes>
-      <Footer/>
+  
     </BrowserRouter>
   
   );

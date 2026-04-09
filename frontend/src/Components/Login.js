@@ -49,6 +49,9 @@ const Login = () => {
     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
     <input type="password" name="password" value={form.password}  onChange={handleChange} className="form-control" id="exampleInputPassword1"/>
   </div>
+  <div className="mb-3">
+    <p style={{cursor: "pointer"}} onClick={()=> navigate("/Signup")}>Register A Account</p>
+  </div>
  
   <button type="submit" className="btn btn-primary">Login</button>
 </form>

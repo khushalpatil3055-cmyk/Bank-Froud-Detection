@@ -1,6 +1,6 @@
 import React from 'react'
-import Ufilter from './Components/Ufilter'
-import Usertable from './Components/Usertable'
+import Ufilter from '../Components/Ufilter'
+import Usertable from '../Components/Usertable'
 
 const Users = () => {
   return (

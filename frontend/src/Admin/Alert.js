@@ -1,6 +1,6 @@
 import React from 'react'
-import Afilter from './Components/Afilter'
-import Alertcard from './Components/Alertcard'
+import Afilter from '../Components/Afilter'
+import Alertcard from '../Components/Alertcard'
 
 const Alert = () => {
   return (

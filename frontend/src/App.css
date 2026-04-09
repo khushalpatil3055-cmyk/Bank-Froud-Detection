@@ -5,3 +5,8 @@
 .app{
   background-color: #f4f6f9cf;
 }
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

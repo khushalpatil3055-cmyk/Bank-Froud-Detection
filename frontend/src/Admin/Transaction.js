@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Tfilter from './Components/Tfilter'
-import Table from './Components/Table'
+import Tfilter from '../Components/Tfilter'
+import Table from '../Components/Table'
 
 const Transaction = () => {
   return (

@@ -1,9 +1,9 @@
 import React from 'react'
-import StatCard from './Components/StatCard';
-import Filters from './Components/Filters';
-import FraudChart from './Components/FraudChart';
-import Piechart from './Components/Piechart';
-import Table from './Components/Table';
+import StatCard from '../Components/StatCard';
+import Filters from '../Components/Filters';
+import FraudChart from '../Components/FraudChart';
+import Piechart from '../Components/Piechart';
+import Table from '../Components/Table';
 
 const Dashboard = () => {
   return (
