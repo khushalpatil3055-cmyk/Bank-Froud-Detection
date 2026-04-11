@@ -5,8 +5,29 @@
 .app{
   background-color: #f4f6f9cf;
 }
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+}
+
+/* Remove sticky from footer */
 footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  z-index: 100;
+  background: #fff;
+  /* No position sticky */
+}
+
+/* This makes footer go to bottom naturally */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.main-content {
+  flex: 1; /* pushes footer down to end of content */
+  padding: 20px;
 }

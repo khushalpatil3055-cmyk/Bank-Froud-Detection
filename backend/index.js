@@ -2,10 +2,11 @@ const connecttomongo = require('./db');
 const express = require('express');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 const cors = require('cors');
+
 app.use(cors({
-  origin: 'http://localhost:3001', // Allow only your frontend
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 // ✅ Middleware (VERY IMPORTANT)

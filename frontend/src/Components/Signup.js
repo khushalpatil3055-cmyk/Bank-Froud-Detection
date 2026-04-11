@@ -18,9 +18,9 @@ const Signup = () => {
     });
   };
   const handelsubmit = async (e) => {
-      e.preventDafault();
+      e.preventDefault(); 
       try {
-        const response = await axios.post("http://localhost:3000/api/auth/signup",formData);
+        const response = await axios.post("http://localhost:3001/api/auth/signup",formData);
         alert(response.data.message);
          setFormData({ name: "", email: "", password: "" });
       } catch  (error) {
@@ -65,7 +65,7 @@ const Signup = () => {
   }
   return (
    <div style={style.container}>
-      <form style={style.form}>
+      <form style={style.form}onSubmit={handelsubmit}>
         <h2>Signup Form</h2>
 
         <input

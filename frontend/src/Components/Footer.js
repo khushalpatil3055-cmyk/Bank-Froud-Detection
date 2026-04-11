@@ -9,7 +9,7 @@ const Footer = () => {
         textAlign: "center",
         padding: "15px",
         paddingTop:"100px",
-        marginTop: "40px"
+        marginTop: "0px"
       }}
     >
       <p>© 2026 Secure Banking & Fraud Detection System</p>

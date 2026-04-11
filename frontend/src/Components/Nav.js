@@ -20,11 +20,11 @@ const Nav = () => {
           >
             ☰
           </button>
-     <a className="navbar-brand" href="/">
 
-      <img src="LOGO.png" alt="" width="80" height="54"/>
-         <a className="navbar-brand fw-bold" href="/" style={{color:"#0F3D3E"}}>FraudGuard</a>
-    </a>
+<a className="navbar-brand d-flex align-items-center" href="/">
+  <img src="LOGO.png" alt="" width="80" height="54"/>
+  <span className="fw-bold" style={{color:"#0F3D3E"}}>FraudGuard</span>
+</a>
    <form className="d-flex">
         <input className="form-control me-2" type="search" placeholder="Search transaction ID / account number..." aria-label="Search" style={{width:"600px",marginLeft : "250px"}}/>
         <button type="button" className="btn btn-primary rounded-circle " style={{backgroundColor:"#0F3D3E"}}>🔍︎</button>
@@ -51,8 +51,8 @@ const Nav = () => {
     <i className="bi bi-person-fill"></i>
   </button>
   <ul className="dropdown-menu">
-    <li><a className="dropdown-item" href="/">Admin</a></li>
-    <li><a className="dropdown-item" href="/">Customer</a></li>
+    <li><a className="dropdown-item" href="/">Logout</a></li>
+   
    
   </ul>
 </div>
