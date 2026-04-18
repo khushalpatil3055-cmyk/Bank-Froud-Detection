@@ -17,7 +17,7 @@ connecttomongo();
 
 // ✅ Routes
 app.use('/api/auth', require('./routes/authRoutes'));
-
+app.use('/api/transactions', require('./routes/transactionRoutes'));
 // ✅ Test Route
 app.get('/', (req, res) => {
   res.send("API Running");

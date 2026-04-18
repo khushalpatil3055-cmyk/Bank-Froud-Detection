@@ -13,14 +13,14 @@ exports.signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role: "user",
-      balance: 10000
-    });
-
+   const user = await User.create({
+  name,
+  email,
+  password: hashedPassword,
+  role: "user",
+  balance: 10000,
+  account_number: "ACC" + Date.now() // auto generate
+});
     res.status(201).json({
       message: "User registered successfully",
       user
