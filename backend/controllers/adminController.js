@@ -9,6 +9,13 @@ exports.getStats = async (req , res ) => {
 
         const thisMonth = new Date(today.getFullYear(),today.getMonth(),1);
         const thisYear = new Date(today.getFullYear(),0,1);
+        const monthTransactions = await Transaction.countDocuments({
+           createdAt: { $gte: thisMonth }
+          });
+
+          const yearTransactions = await Transaction.countDocuments({
+            createdAt: { $gte: thisYear }
+          });
 
         const totalUsers = await User.countDocuments({role : "user"});
         const totalTransactions = await Transaction.countDocuments();
@@ -57,18 +64,19 @@ exports.getStats = async (req , res ) => {
         }
 
         res.status(200).json({
-            totalUsers,
-            totalTransactions,
-            totalFlagged,
-            totalSuspicious,
-            todayTransactions,
-            todayFraud,
-            monthFraud,
-            yearFraud,
-            pendingAlerts,
-            last7Days
-        });
-
+           totalUsers,
+           totalTransactions,
+           totalFlagged,
+           totalSuspicious,
+           todayTransactions,
+           todayFraud,
+           monthFraud,
+           yearFraud,
+           monthTransactions,  // ✅ added
+           yearTransactions,   // ✅ added
+           pendingAlerts,
+           last7Days
+         });
 
     } catch (error) {
         console.error(error);
@@ -152,3 +160,65 @@ exports.updateUser = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+// Today  HOURLY DATA 
+exports.getTodayStats = async (req,res) => {
+      try {
+        const hours = [];
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Loop through 24 hours
+         for (let i = 0; i < 24; i++) {
+           const startHour = new Date(today);
+           startHour.setHours(i);
+           const endHour = new Date(today);
+            endHour.setHours(i + 1);
+
+            const froudCount = await Transaction.countDocuments({
+                status: { $in: ["flagged", "suspicious"] },
+                createdAt: { $gte: startHour, $lt: endHour }
+            });
+
+            hours.push({
+            label: `${i}:00`,
+            fraud: fraudCount
+      });
+         }
+         res.status(200).json({ hours }); 
+      } catch (error) {
+        res.status(500).json({ message: "Server error" });
+      }
+}
+
+// THIS MONTH DAILY DATA
+exports.getMonthStats = async  (req, res) =>  {
+  try {
+    const days = [];
+    const now = new Date();
+    const daysInMonth = new Date(
+      now.getFullYear(),
+      now.getMonth() + 1 ,
+      0
+    ).getDate();
+
+    for(let i = 1; i <= daysInMonth; i++ ){
+      const startDay = new Date(now.getFullYear(),now.getMonth(), i);
+      const endDay = new Date(now.getFullYear(),now.getMonth(),i + 1);
+
+      const fraudCount = await Transaction.countDocuments({
+          status: { $in: ["flagged", "suspicious"] },
+        createdAt: { $gte: startDay, $lt: endDay }
+      })
+    
+     days.push({
+        label: `${i}`,
+        fraud: fraudCount
+      });
+    }
+    res.status(200).json({ days });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+}

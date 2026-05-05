@@ -18,7 +18,7 @@ const FraudChart = () => {
                      tension: 0.4
                 },
                 {
-                     label: "Safe Transactions",
+                     label: "Safe Transactions",    
                       data: [30, 40, 35, 50, 45, 60, 55],
                      borderColor: "#0F3D3E",
                       backgroundColor: "rgba(15,61,62,0.2)",
