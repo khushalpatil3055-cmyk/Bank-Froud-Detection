@@ -26,3 +26,10 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+// Add this test route BEFORE admin route
+app.get('/api/admin/test', (req, res) => {
+  res.json({ message: "Admin route working!" });
+});
+
+app.use('/api/admin', require('./routes/adminRoutes'));

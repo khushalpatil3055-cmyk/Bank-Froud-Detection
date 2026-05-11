@@ -1,132 +1,134 @@
 const User = require("../models/User");
-const Transaction  = require("../models/Transaction");
+const Transaction = require("../models/Transaction");
 const Alert = require("../models/Alert");
 
-exports.getStats = async (req , res ) => {
-    try {
-        const today = new Date();
-        today.setHours(0,0,0,0);
+exports.getStats = async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-        const thisMonth = new Date(today.getFullYear(),today.getMonth(),1);
-        const thisYear = new Date(today.getFullYear(),0,1);
-        const monthTransactions = await Transaction.countDocuments({
-           createdAt: { $gte: thisMonth }
-          });
+    const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const thisYear = new Date(today.getFullYear(), 0, 1);
 
-          const yearTransactions = await Transaction.countDocuments({
-            createdAt: { $gte: thisYear }
-          });
+    const totalUsers = await User.countDocuments({ role: "user" });
+    const totalTransactions = await Transaction.countDocuments();
+    const totalFlagged = await Transaction.countDocuments({ status: "flagged" });
+    const totalSuspicious = await Transaction.countDocuments({ status: "suspicious" });
 
-        const totalUsers = await User.countDocuments({role : "user"});
-        const totalTransactions = await Transaction.countDocuments();
-        const totalFlagged = await Transaction.countDocuments({status : "flagged"});
-        const totalSuspicious = await Transaction.countDocuments({status : "suspicious"});
+    const todayTransactions = await Transaction.countDocuments({
+      createdAt: { $gte: today }
+    });
+    const monthTransactions = await Transaction.countDocuments({
+      createdAt: { $gte: thisMonth }
+    });
+    const yearTransactions = await Transaction.countDocuments({
+      createdAt: { $gte: thisYear }
+    });
 
-        const todayTransactions  = await Transaction.countDocuments({
-        createdAt: { $gte: today }
-        });
+    const todayFraud = await Transaction.countDocuments({
+      status: { $in: ["flagged", "suspicious"] },
+      createdAt: { $gte: today }
+    });
+    const monthFraud = await Transaction.countDocuments({
+      status: { $in: ["flagged", "suspicious"] },
+      createdAt: { $gte: thisMonth }
+    });
+    const yearFraud = await Transaction.countDocuments({
+      status: { $in: ["flagged", "suspicious"] },
+      createdAt: { $gte: thisYear }
+    });
 
-        const todayFraud = await Transaction.countDocuments({
-            status : {$in : ["flagged" , "suspicious"] },
-            createdAt : {$gte : today}
-        });
+    const pendingAlerts = await Alert.countDocuments({ status: "pending" });
 
-        const monthFraud = await Transaction.countDocuments({
-             status: { $in: ["flagged", "suspicious"] },
-             createdAt: { $gte: thisMonth }
-        });
+    // ✅ Fixed last7Days loop
+    const last7Days = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i); // ✅ fixed: was -1 always
+      date.setHours(0, 0, 0, 0);
 
-        const yearFraud = await Transaction.countDocuments({
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
+
+      const count = await Transaction.countDocuments({
         status: { $in: ["flagged", "suspicious"] },
-        createdAt: { $gte: thisYear }
-        });
+        createdAt: { $gte: date, $lt: nextDate }
+      });
 
-        const pendingAlerts = await Alert.countDocuments({status : "pending"});
-
-        const last7Days = [];
-        for(let i = 6;i>= 0 ; i--){
-            const date = new Date();
-            date.setDate(date.getDate() - 1);
-            date.setHours(0,0,0,0);
-
-            const nextDate = new Date(date);
-            nextDate.setDate(nextDate.getDate() + 1);
-
-            const count = await Transaction.countDocuments({
-                status : {$in : ["flagged","suspicious"]},
-                createdAt : {$gte : date , $lt : nextDate }
-            });
-
-             last7Days.push({
+      last7Days.push({
         date: date.toLocaleDateString('en-IN', { weekday: 'short' }),
         count
       });
-        }
-
-        res.status(200).json({
-           totalUsers,
-           totalTransactions,
-           totalFlagged,
-           totalSuspicious,
-           todayTransactions,
-           todayFraud,
-           monthFraud,
-           yearFraud,
-           monthTransactions,  // ✅ added
-           yearTransactions,   // ✅ added
-           pendingAlerts,
-           last7Days
-         });
-
-    } catch (error) {
-        console.error(error);
-    res.status(500).json({ message: "Server error" });
     }
+
+    // ✅ Recent transactions for table
+    const recentTransactions = await Transaction.find()
+      .populate("sender_id", "name account_number")
+      .populate("receiver_id", "name account_number")
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json({
+      totalUsers,
+      totalTransactions,
+      totalFlagged,
+      totalSuspicious,
+      todayTransactions,
+      monthTransactions,
+      yearTransactions,
+      todayFraud,
+      monthFraud,
+      yearFraud,
+      pendingAlerts,
+      last7Days,
+      recentTransactions
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
-exports.getAlerts = async (req , res ) => {
-    try {
-        const alerts = await Alert.find()
+exports.getAlerts = async (req, res) => {
+  try {
+    const alerts = await Alert.find()
       .populate("transaction_id")
       .populate("sender_id", "name email account_number")
       .sort({ createdAt: -1 });
 
-      res.status(200).json({ alerts });
-    } catch (error) {
-         res.status(500).json({ message: "Server error" });
-    }
+    res.status(200).json({ alerts });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 exports.updateAlert = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { status } = req.body;
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
 
-      const alert = await Alert.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
+    const alert = await Alert.findByIdAndUpdate(
+      id, { status }, { new: true }
     );
 
-     if (!alert) {
+    if (!alert) {
       return res.status(404).json({ message: "Alert not found" });
     }
 
-    res.status(200).json({
-        message: "Alert not found" 
-    });
+    // ✅ Fixed - only one res.json()
     res.status(200).json({
       message: `Alert ${status} successfully`,
       alert
     });
 
-    } catch (error) {
-        res.status(500).json({ message: "Server error" });
-    }
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
-exports.getUsers = async(req,res)=>{
-     try {
+exports.getUsers = async (req, res) => {
+  try {
     const users = await User.find({ role: "user" })
       .select("-password")
       .sort({ createdAt: -1 });
@@ -140,12 +142,10 @@ exports.getUsers = async(req,res)=>{
 exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { status } = req.body; // "active" or "blocked"
+    const { status } = req.body;
 
     const user = await User.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true }
+      id, { status }, { new: true }
     ).select("-password");
 
     if (!user) {
@@ -161,64 +161,59 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+// ✅ Fixed getTodayStats - typo fixed
+exports.getTodayStats = async (req, res) => {
+  try {
+    const hours = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-// Today  HOURLY DATA 
-exports.getTodayStats = async (req,res) => {
-      try {
-        const hours = [];
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 24; i++) {
+      const startHour = new Date(today);
+      startHour.setHours(i);
+      const endHour = new Date(today);
+      endHour.setHours(i + 1);
 
-        // Loop through 24 hours
-         for (let i = 0; i < 24; i++) {
-           const startHour = new Date(today);
-           startHour.setHours(i);
-           const endHour = new Date(today);
-            endHour.setHours(i + 1);
-
-            const froudCount = await Transaction.countDocuments({
-                status: { $in: ["flagged", "suspicious"] },
-                createdAt: { $gte: startHour, $lt: endHour }
-            });
-
-            hours.push({
-            label: `${i}:00`,
-            fraud: fraudCount
+      // ✅ Fixed typo: froudCount → fraudCount
+      const fraudCount = await Transaction.countDocuments({
+        status: { $in: ["flagged", "suspicious"] },
+        createdAt: { $gte: startHour, $lt: endHour }
       });
-         }
-         res.status(200).json({ hours }); 
-      } catch (error) {
-        res.status(500).json({ message: "Server error" });
-      }
-}
 
-// THIS MONTH DAILY DATA
-exports.getMonthStats = async  (req, res) =>  {
+      hours.push({
+        label: `${i}:00`,
+        fraud: fraudCount // ✅ matches now
+      });
+    }
+    res.status(200).json({ hours });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.getMonthStats = async (req, res) => {
   try {
     const days = [];
     const now = new Date();
     const daysInMonth = new Date(
       now.getFullYear(),
-      now.getMonth() + 1 ,
+      now.getMonth() + 1,
       0
     ).getDate();
 
-    for(let i = 1; i <= daysInMonth; i++ ){
-      const startDay = new Date(now.getFullYear(),now.getMonth(), i);
-      const endDay = new Date(now.getFullYear(),now.getMonth(),i + 1);
+    for (let i = 1; i <= daysInMonth; i++) {
+      const startDay = new Date(now.getFullYear(), now.getMonth(), i);
+      const endDay = new Date(now.getFullYear(), now.getMonth(), i + 1);
 
       const fraudCount = await Transaction.countDocuments({
-          status: { $in: ["flagged", "suspicious"] },
+        status: { $in: ["flagged", "suspicious"] },
         createdAt: { $gte: startDay, $lt: endDay }
-      })
-    
-     days.push({
-        label: `${i}`,
-        fraud: fraudCount
       });
+
+      days.push({ label: `${i}`, fraud: fraudCount });
     }
     res.status(200).json({ days });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
-}
+};
