@@ -6,5 +6,6 @@ export const updateAlert = (id, status) => API.put(`/admin/alerts/${id}`, { stat
 export const getUsers = () => API.get('/admin/users');
 export const updateUser = (id, status) => API.put(`/admin/users/${id}`, { status });
 export const getAllTransactions = () => API.get('/transactions/all');
-export const getTodayStats = () => API.get('/admin/today-stats');   // ✅ add
-export const getMonthStats = () => API.get('/admin/month-stats'); 
+export const getYearlyStats = () => API.get('/admin/yearly-stats');  // ✅
+export const getTodayStats = () => API.get('/admin/today-stats');    // ✅
+export const getMonthStats = () => API.get('/admin/month-stats');    // ✅
