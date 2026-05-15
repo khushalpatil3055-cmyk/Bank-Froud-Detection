@@ -15,7 +15,7 @@ const Piechart = ({ safe = 0, suspicious = 0, flagged = 0 }) => {
       {
         data: [safe, suspicious, flagged],
         backgroundColor: [
-          "#0F3D3E",   // safe → dark green
+          "#0F3D3E",   // safe → da rk green
           "#f39c12",   // suspicious → orange
           "#dc3545"    // flagged → red
         ],
